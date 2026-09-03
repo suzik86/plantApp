@@ -29,13 +29,25 @@ function App() {
     ]);
   };
 
+  const deletePlant = (id: number | string) => {
+    setPlantList((prevPlantList) => prevPlantList.filter((plant) => plant.id !== id));
+  };
+
+  const updatePlant = (updatedPlant: Plant) => {
+    setPlantList((prevPlantList) =>
+      prevPlantList.map((plant) =>
+        plant.id === updatedPlant.id ? updatedPlant : plant
+      )
+    );
+  };
+
   return (
     <div className="App">
       <header className="App-header">
         <h1>Welcome to the Plant App</h1>
       </header>
       <main>
-        <PlantList plants={plantList} onWater={waterPlant} />
+        <PlantList plants={plantList} onWater={waterPlant} onDelete={deletePlant} onEdit={updatePlant} />
         <AddPlantForm onAddPlant={(plant: Omit<Plant, 'id'>) => addPlant(plant)}/>
       </main>
     </div>

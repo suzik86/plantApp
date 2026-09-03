@@ -11,4 +11,5 @@ enum Watering {
 }
 
 export type { Plant };
+export type PlantFormData = Omit<Plant, 'id'>;
 export { Watering };
