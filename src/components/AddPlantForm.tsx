@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Watering, PlantFormData } from '../types/plant';
 import type { ChangeEvent, FormEvent } from 'react';
+import { useRef } from 'react';
 
 
 function AddPlantForm({ onAddPlant }: { onAddPlant: (plant: PlantFormData) => void }) {
@@ -8,6 +9,12 @@ function AddPlantForm({ onAddPlant }: { onAddPlant: (plant: PlantFormData) => vo
     const [category, setCategory] = useState('');
     const [watering, setWatering] = useState(Watering.NeedWater);
 
+    const inputRef = useRef<HTMLInputElement>(null);
+    const handleFocus = () => {
+        if (inputRef.current) {
+            inputRef.current.focus();
+        }
+    };
     const validateForm = () => {
         if (!name.trim() || !category.trim() || !watering) {
             alert('All fields are required');
@@ -28,10 +35,11 @@ function AddPlantForm({ onAddPlant }: { onAddPlant: (plant: PlantFormData) => vo
         setName('');
         setCategory('');
         setWatering(Watering.NeedWater);
+        handleFocus();
     };
     return (
         <form className="add-plant-form" onSubmit={handleSubmit}>
-            <input type="text" name="name" placeholder="Plant Name" value={name} onChange={handleNameChange} />
+            <input type="text" name="name" placeholder="Plant Name" ref={inputRef} value={name} onChange={handleNameChange} />
             <input type="text" name="category" placeholder="Category" value={category} onChange={handleCategoryChange} />
             <select name="watering" value={watering} onChange={handleWateringChange}>
                 <option value={Watering.NeedWater}>Need Water</option>

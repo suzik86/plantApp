@@ -64,3 +64,12 @@ h1 {
   gap: 0.5rem;
   align-items: center;
 }
+
+.counter {
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.ref-counter {
+ margin-left: 0.5rem;
+}

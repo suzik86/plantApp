@@ -1,5 +1,6 @@
 import './App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import Counter from './components/Counter';
 import AddPlantForm from './components/AddPlantForm';
 import PlantList from './components/PlantList';
 import { Plant, Watering } from './types/plant';
@@ -12,7 +13,21 @@ const plants = [
 ];
 
 function App() {
-  const [plantList, setPlantList] = useState<Plant[]>(plants);
+  const [plantList, setPlantList] = useState<Plant[]>(() => {
+    const storedPlants = localStorage.getItem('plants');
+    if (!storedPlants) {
+      return plants;
+    }
+    try {
+      return JSON.parse(storedPlants);
+    } catch {
+      return plants;
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem('plants', JSON.stringify(plantList));
+  }, [plantList]);
 
   const waterPlant = (id: number | string) => {
     setPlantList((prevPlantList) =>
@@ -47,6 +62,7 @@ function App() {
         <h1>Welcome to the Plant App</h1>
       </header>
       <main>
+        <Counter></Counter>
         <PlantList plants={plantList} onWater={waterPlant} onDelete={deletePlant} onEdit={updatePlant} />
         <AddPlantForm onAddPlant={(plant: Omit<Plant, 'id'>) => addPlant(plant)}/>
       </main>
