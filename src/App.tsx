@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Counter from './components/Counter';
 import AddPlantForm from './components/AddPlantForm';
 import PlantList from './components/PlantList';
+import ProductList from './components/ProductList';
 import { Plant, Watering } from './types/plant';
 
 
@@ -65,6 +66,7 @@ function App() {
         <Counter></Counter>
         <PlantList plants={plantList} onWater={waterPlant} onDelete={deletePlant} onEdit={updatePlant} />
         <AddPlantForm onAddPlant={(plant: Omit<Plant, 'id'>) => addPlant(plant)}/>
+        <ProductList></ProductList>
       </main>
     </div>
   );
